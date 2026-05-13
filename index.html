@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>jscripts | Roblox Script Directory</title>
+  <link rel="icon" type="image/png" href="images/jscripts-logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <style>
     :root {
@@ -104,12 +105,10 @@
 
     .brand-mark {
       position: relative;
-      display: grid;
       width: 42px;
       height: 42px;
-      place-items: center;
       border-radius: 15px;
-      background: linear-gradient(135deg, var(--blue), var(--purple) 58%, var(--pink));
+      background: transparent;
       box-shadow: 0 18px 44px rgba(75, 163, 255, 0.24);
       overflow: hidden;
     }
@@ -120,6 +119,13 @@
       inset: 1px;
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
     }
 
     .nav-links {
@@ -1731,295 +1737,19 @@
     }
 
 
-    /* Final cleanup */
-    .nav-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-link i {
-      width: 16px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-
-    .toolbar {
-      display: grid;
-      grid-template-columns: minmax(280px, 680px) auto;
-      align-items: end;
-      justify-content: start;
-      column-gap: 14px;
-    }
-
-    .toolbar .search {
-      width: 100%;
-      flex: none;
-    }
-
-    .filter-actions {
-      display: flex;
-      align-items: end;
-      justify-content: flex-start;
-      height: 56px;
-      margin: 0;
-    }
-
-    .filter-button {
-      min-height: 56px;
-      height: 56px;
-      margin: 0;
-      align-self: end;
-    }
-
-    .game-link-button {
-      color: #5dffac;
-      border-color: rgba(93, 255, 172, 0.25);
-      background: rgba(93, 255, 172, 0.1);
-    }
-
-    .game-link-button:hover {
-      background: rgba(93, 255, 172, 0.15);
-      border-color: rgba(93, 255, 172, 0.38);
-    }
-
-    .executor-page {
-      padding: 52px 0 78px;
-    }
-
-    .executor-hero {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .executor-hero h1 {
-      max-width: none;
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-      font-size: clamp(2.8rem, 7vw, 5.2rem);
-      letter-spacing: -0.06em;
-    }
-
-    .platform-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      width: min(780px, 100%);
-      margin: 28px auto 18px;
-    }
-
-    .platform-card {
-      display: grid;
-      grid-template-columns: 74px 1fr;
-      gap: 14px;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 12px;
-      padding: 14px;
-      background: rgba(31, 46, 78, 0.92);
+    .detail-card button.button {
+      border: 1px solid var(--line);
       color: var(--text);
-      cursor: pointer;
-      transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
     }
 
-    .platform-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(90, 182, 255, 0.44);
-    }
 
-    .platform-card.active {
-      border-color: rgba(0, 255, 153, 0.82);
-      box-shadow: 0 0 0 1px rgba(0, 255, 153, 0.35) inset;
-    }
-
-    .platform-icon {
-      display: grid;
-      place-items: center;
-      width: 74px;
-      height: 74px;
-      border-radius: 10px;
-      color: #eef4ff;
-      background:
-        radial-gradient(circle at 30% 18%, rgba(255,255,255,0.16), transparent 36%),
-        linear-gradient(135deg, rgba(75,163,255,0.18), rgba(155,92,255,0.16));
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .platform-icon i {
-      font-size: 2.65rem;
-      line-height: 1;
-    }
-
-    .platform-info h3 {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 900;
-      color: #ffffff;
-      text-align: left;
-    }
-
-    .executor-list-head {
-      margin: 14px 0 16px;
-      text-align: center;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 950;
-      letter-spacing: -0.04em;
-      color: #ffffff;
-    }
-
-    .executor-cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .executor-card {
-      display: grid;
-      grid-template-columns: 84px minmax(0, 1fr) 42px;
-      gap: 16px;
-      border: 1px solid rgba(0, 255, 153, 0.88);
-      border-radius: 14px;
-      padding: 14px;
-      background: rgba(31, 46, 78, 0.92);
-    }
-
-    .executor-card-icon {
-      display: grid;
-      place-items: center;
-      width: 84px;
-      height: 84px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #111a32, #202d54);
-      color: #fff;
-      font-size: 2rem;
-      font-weight: 900;
-      overflow: hidden;
-    }
-
-    .executor-card-icon img {
+    .game-link-note {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: inherit;
-    }
-
-    .executor-card-title-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 6px;
-    }
-
-    .executor-card-title {
-      color: #ffffff;
-      font-size: 1rem;
-      font-weight: 900;
-    }
-
-    .executor-card-badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 0 8px;
-      border-radius: 8px;
-      background: rgba(145, 102, 255, 0.2);
-      color: #bca9ff;
-      border: 1px solid rgba(145, 102, 255, 0.3);
-      font-size: 0.78rem;
-      font-weight: 800;
-    }
-
-    .executor-card-meta {
-      color: #b8c8ea;
-      font-size: 0.9rem;
-      line-height: 1.55;
-    }
-
-    .executor-card-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-content: start;
-    }
-
-    .executor-card-icon-button {
-      display: grid;
-      place-items: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
-      color: #eef4ff;
-      text-decoration: none;
-    }
-
-    .executor-card-icon-button:hover {
-      background: rgba(75, 163, 255, 0.15);
-      border-color: rgba(75, 163, 255, 0.42);
-    }
-
-    .social-icon i {
-      font-size: 1.55rem;
-      line-height: 1;
-    }
-
-    @media (max-width: 960px) {
-      .platform-grid,
-      .executor-cards {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .toolbar {
-        grid-template-columns: 1fr;
-        row-gap: 10px;
-      }
-
-      .filter-actions {
-        height: auto;
-      }
-
-      .filter-button {
-        height: 48px;
-        min-height: 48px;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .executor-card {
-        grid-template-columns: 72px minmax(0, 1fr);
-      }
-
-      .executor-card-icon {
-        width: 72px;
-        height: 72px;
-      }
-
-      .executor-card-actions {
-        grid-column: 1 / -1;
-        flex-direction: row;
-      }
-    }
-
-
-    a[href], button {
-      cursor: pointer;
-    }
-
-    .executor-card-icon-button[href="https://example.com"],
-    .executor-card-icon-button[href="https://discord.com"] {
-      opacity: 0.95;
-    }
-
-
-    a[target="_blank"] {
-      cursor: pointer;
+      margin: -4px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.45;
+      text-align: center;
     }
 
   </style>
@@ -2028,7 +1758,9 @@
   <header class="site-header">
     <nav class="nav">
       <a class="brand" href="#scripts" data-route="scripts" aria-label="jscripts scripts">
-        <span class="brand-mark">J</span>
+        <span class="brand-mark" aria-hidden="true">
+          <img src="images/jscripts-logo.png" alt="">
+        </span>
         <span>jscripts</span>
       </a>
 
@@ -2038,8 +1770,7 @@
         <span></span>
       </button>
 
-      <div class="nav-links" data-nav-links>
-        <a class="nav-link" href="#scripts" data-route="scripts"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Scripts</span></a>
+      <div class="nav-links" data-nav-links>        <a class="nav-link" href="#scripts" data-route="scripts"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Scripts</span></a>
         <a class="nav-link" href="#executor" data-route="executor"><i class="fa-solid fa-terminal" aria-hidden="true"></i><span>Executor</span></a>
         <a class="nav-link" href="#socials" data-route="socials"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i><span>Socials</span></a>
       </div>
@@ -2204,8 +1935,8 @@
         updated: "10/15/2025, 2:08 PM",
         price: "Free",
         iconText: "☾",
-        websiteUrl: "https://example.com",
-        discordUrl: "https://discord.com"
+        websiteUrl: "#",
+        discordUrl: "#"
       },
       {
         id: "volt-android",
@@ -2216,8 +1947,8 @@
         updated: "10/15/2025, 4:30 PM",
         price: "Free",
         iconText: "V",
-        websiteUrl: "https://example.com",
-        discordUrl: "https://discord.com"
+        websiteUrl: "#",
+        discordUrl: "#"
       },
       {
         id: "orion-ios",
@@ -2228,8 +1959,8 @@
         updated: "10/15/2025, 1:15 PM",
         price: "Free",
         iconText: "i",
-        websiteUrl: "https://example.com",
-        discordUrl: "https://discord.com"
+        websiteUrl: "#",
+        discordUrl: "#"
       },
       {
         id: "xeno-windows",
@@ -2240,8 +1971,8 @@
         updated: "10/15/2025, 9:09 PM",
         price: "Free",
         iconText: "✦",
-        websiteUrl: "https://example.com",
-        discordUrl: "https://discord.com"
+        websiteUrl: "#",
+        discordUrl: "#"
       }
     ];
 
@@ -2569,15 +2300,15 @@
           <div class="executor-card-content">
             <div class="executor-card-title-row">
               <span class="executor-card-title">${escapeHtml(item.name)}</span>
-              <span class="executor-card-badge">${escapeHtml(item.price || "Free")}</span>
+              <span class="executor-card-badge">${escapeHtml(item.price)}</span>
             </div>
             <div class="executor-card-meta">
               <div>Platform: ${escapeHtml(item.platform)}</div>
             </div>
           </div>
           <div class="executor-card-actions">
-            <a class="executor-card-icon-button" href="${escapeHtml(item.websiteUrl || "#")}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.name)} website">${globeSvg()}</a>
-            <a class="executor-card-icon-button" href="${escapeHtml(item.discordUrl || "#")}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.name)} Discord">${discordSvg()}</a>
+            <a class="executor-card-icon-button" href="${escapeHtml(item.websiteUrl || "#")}" target="_blank" rel="noopener" aria-label="${escapeHtml(item.name)} website">${globeSvg()}</a>
+            <a class="executor-card-icon-button" href="${escapeHtml(item.discordUrl || "#")}" target="_blank" rel="noopener" aria-label="${escapeHtml(item.name)} Discord">${discordSvg()}</a>
           </div>
         </article>
       `;
@@ -2626,11 +2357,8 @@
     }
 
     function renderSocials() {
-      const grid = $("[data-social-grid]");
-      if (!grid) return;
-
-      grid.innerHTML = socials.map((social) => `
-        <a class="social-card ${escapeHtml(socialClass(social.name))}" href="${escapeHtml(social.url)}" target="_blank" rel="noopener noreferrer">
+      $("[data-social-grid]").innerHTML = socials.map((social) => `
+        <a class="social-card ${escapeHtml(socialClass(social.name))}" href="${escapeHtml(social.url)}" target="_blank" rel="noopener">
           <span class="social-icon"><i class="${escapeHtml(socialIconClass(social.name))}" aria-hidden="true"></i></span>
           <span>
             <strong>${escapeHtml(social.name)}</strong>
@@ -2640,11 +2368,25 @@
       `).join("");
     }
 
+
+    function copyToClipboard(value) {
+      const text = String(value || "").trim();
+      if (!text || text === "#") return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert("Game link copied. Paste it into a new browser tab to open Roblox.");
+        }).catch(() => {
+          prompt("Copy this game link:", text);
+        });
+      } else {
+        prompt("Copy this game link:", text);
+      }
+    }
+
     function renderDetail(id) {
       const item = scripts.find((scriptItem) => scriptItem.id === id);
       const detailView = $("#detail-view");
-
-      if (!detailView) return;
 
       if (!item) {
         detailView.innerHTML = `
@@ -2671,11 +2413,9 @@
             <div class="meta">Added ${formatAddedAgo(item)}</div>
             <div class="tags">${tagHtml([...(item.tags || []), item.keySystem].filter(Boolean))}</div>
             <div class="actions">
-              <a class="button primary full" href="${escapeHtml(item.getScriptUrl || "#")}" target="_blank" rel="noopener noreferrer">Get Script</a>
-              <a class="button full ghost game-link-button" href="${escapeHtml(item.gameUrl || "#")}" target="_blank" rel="noopener noreferrer">
-                <i class="fa-solid fa-link" aria-hidden="true"></i>
-                <span>Game Link</span>
-              </a>
+              <a class="button primary full" href="${escapeHtml(item.getScriptUrl)}" target="_blank" rel="noopener">Get Script</a>
+              <button class="button full ghost" type="button" onclick="copyToClipboard('${escapeHtml(item.gameUrl || '')}')">Open Game Page</button>
+              <p class="game-link-note">Roblox may block opening inside previews, so this button copies the link instead.</p>
               <a class="button full ghost" href="#scripts">Back to Scripts</a>
             </div>
           </div>
@@ -2684,80 +2424,57 @@
     }
 
     function setActiveView(route) {
-      const [page, rawId] = String(route || "#scripts").replace(/^#/, "").split("/");
+      const [page, rawId] = route.replace(/^#/, "").split("/");
       const viewName = page || "scripts";
 
       $$(".view").forEach((view) => view.classList.remove("active"));
-      $$(".nav-link").forEach((link) => {
-        link.classList.toggle("active", link.dataset.route === viewName);
-      });
+      $$(".nav-link").forEach((link) => link.classList.toggle("active", link.dataset.route === viewName));
 
       if (viewName === "script") {
-        const detail = $("#detail-view");
-        if (detail) detail.classList.add("active");
+        $("#detail-view").classList.add("active");
         renderDetail(decodeURIComponent(rawId || ""));
       } else {
         const target = $(`[data-view="${viewName}"]`) || $('[data-view="scripts"]');
-        if (target) target.classList.add("active");
-
+        target.classList.add("active");
         document.title = `${viewName.charAt(0).toUpperCase() + viewName.slice(1)} | jscripts`;
-
-        if (viewName === "executor") renderExecutorPage();
-        if (viewName === "scripts") filterScripts();
       }
 
-      const navLinks = $("[data-nav-links]");
-      const menuButton = $("[data-menu-button]");
-      if (navLinks) navLinks.classList.remove("open");
-      if (menuButton) menuButton.setAttribute("aria-expanded", "false");
-
+      $("[data-nav-links]").classList.remove("open");
+      $("[data-menu-button]").setAttribute("aria-expanded", "false");
       window.scrollTo({ top: 0, behavior: "auto" });
     }
 
     function init() {
+      renderHome();
       renderCards($("[data-scripts-grid]"), scripts);
       renderSocials();
       renderExecutorPage();
       filterScripts();
 
-      const searchInput = $("#script-search");
-      if (searchInput) {
-        searchInput.addEventListener("input", filterScripts);
-      }
 
-      const noKeyButton = $("[data-no-key-filter]");
-      if (noKeyButton) {
-        noKeyButton.addEventListener("click", () => {
-          noKeyOnly = !noKeyOnly;
-          filterScripts();
-        });
-      }
-
-      const menuButton = $("[data-menu-button]");
-      if (menuButton) {
-        menuButton.addEventListener("click", () => {
-          const links = $("[data-nav-links]");
-          if (!links) return;
-          const open = links.classList.toggle("open");
-          menuButton.setAttribute("aria-expanded", String(open));
-        });
-      }
+      $("#script-search").addEventListener("input", filterScripts);
+      $("[data-no-key-filter]").addEventListener("click", () => {
+        noKeyOnly = !noKeyOnly;
+        filterScripts();
+      });
+      $("[data-menu-button]").addEventListener("click", () => {
+        const links = $("[data-nav-links]");
+        const open = links.classList.toggle("open");
+        $("[data-menu-button]").setAttribute("aria-expanded", String(open));
+      });
 
       window.addEventListener("hashchange", () => setActiveView(location.hash || "#scripts"));
-
       setInterval(() => {
+        renderHome();
         filterScripts();
+        renderExecutorPage();
         if ((location.hash || "#scripts").startsWith("#script/")) {
           const id = decodeURIComponent((location.hash || "").split("/")[1] || "");
           renderDetail(id);
         }
       }, 15000);
 
-      if (!location.hash || location.hash === "#home") {
-        location.hash = "#scripts";
-      } else {
-        setActiveView(location.hash);
-      }
+      setActiveView(location.hash || "#scripts");
     }
 
     init();
