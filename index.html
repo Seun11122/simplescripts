@@ -1843,7 +1843,8 @@
          - id: unique lowercase name, like "blade-ball-script"
          - title: card/detail title
          - game: Roblox game name
-         - gameUrl: Roblox game page link
+         - gameUrl: the exact Roblox link you want Open Game to use. It can be a full Roblox URL or just the place ID, like "920587237"
+         - placeId: optional. Use this only if your Roblox link is unusual and the ID cannot be extracted automatically.
          - image: your image path, like "images/blade-ball.png"
          - description: what the script listing is for
          - addedMinutesAgo: controls text like "Added 8 minutes ago" and sorting; lower number shows first
@@ -1856,9 +1857,8 @@
     const scripts = [
       {
         id: "adopt-me-auto-farm",
-        title: "Adopt Me Script",
+        title: "Adopt Me Auto Farm",
         game: "Adopt Me",
-        views: 967,
         gameUrl: "https://www.roblox.com/games/920587237/Adopt-Me",
         image: "images/adopt-me.svg",
         description: "Script page for Adopt Me, the Roblox pet trading and roleplay game where players collect pets, decorate homes, and trade with others.",
@@ -1872,11 +1872,9 @@
         id: "brookhaven-rp-tools",
         title: "Brookhaven Script",
         game: "Brookhaven",
-        views: 1100,
         gameUrl: "https://www.roblox.com/games/4924922222/Brookhaven-RP",
         image: "images/brookhaven.svg",
         description: "Script listing for Brookhaven RP, a Roblox roleplay game focused on houses, vehicles, jobs, and city life.",
-        addedMinutesAgo: 16,
         addedAt: "2026-05-13T05:45:19.188910Z",
         tags: ["Roleplay", "Tools", "Hub"],
         keySystem: "Key System",
@@ -1886,11 +1884,9 @@
         id: "blox-fruits-helper",
         title: "Blox Fruits Script",
         game: "Blox Fruits",
-        views: 1300,
         gameUrl: "https://www.roblox.com/games/2753915549/Blox-Fruits",
         image: "images/blox-fruits.svg",
         description: "Script listing for Blox Fruits, the Roblox adventure game about fruits, fighting styles, quests, and leveling.",
-        addedMinutesAgo: 31,
         addedAt: "2026-05-13T05:30:19.188910Z",
         tags: ["Farming", "Quests", "Combat"],
         keySystem: "No Key System",
@@ -1900,11 +1896,9 @@
         id: "pet-simulator-utility",
         title: "Pet Simulator Script",
         game: "Pet Simulator",
-        views: 1600,
         gameUrl: "https://www.roblox.com/games/8737899170/Pet-Simulator-99",
         image: "images/pet-simulator.svg",
         description: "Script listing for Pet Simulator 99, the Roblox pet collecting game with eggs, coins, areas, and upgrades.",
-        addedMinutesAgo: 54,
         addedAt: "2026-05-13T05:07:19.188910Z",
         tags: ["Pets", "Coins", "Utility"],
         keySystem: "Key System",
@@ -1935,8 +1929,8 @@
         updated: "10/15/2025, 2:08 PM",
         price: "Free",
         iconText: "☾",
-        websiteUrl: "#",
-        discordUrl: "#"
+        websiteUrl: "https://example.com",
+        discordUrl: "https://discord.com"
       },
       {
         id: "volt-android",
@@ -1947,8 +1941,8 @@
         updated: "10/15/2025, 4:30 PM",
         price: "Free",
         iconText: "V",
-        websiteUrl: "#",
-        discordUrl: "#"
+        websiteUrl: "https://example.com",
+        discordUrl: "https://discord.com"
       },
       {
         id: "orion-ios",
@@ -1959,8 +1953,8 @@
         updated: "10/15/2025, 1:15 PM",
         price: "Free",
         iconText: "i",
-        websiteUrl: "#",
-        discordUrl: "#"
+        websiteUrl: "https://example.com",
+        discordUrl: "https://discord.com"
       },
       {
         id: "xeno-windows",
@@ -1971,8 +1965,8 @@
         updated: "10/15/2025, 9:09 PM",
         price: "Free",
         iconText: "✦",
-        websiteUrl: "#",
-        discordUrl: "#"
+        websiteUrl: "https://example.com",
+        discordUrl: "https://discord.com"
       }
     ];
 
@@ -2155,6 +2149,122 @@
       return `#script/${encodeURIComponent(id)}`;
     }
 
+    function normalizeExternalUrl(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "https://www.roblox.com";
+
+      // Let full web links and Roblox app links pass through unchanged.
+      if (/^(https?:|roblox:)/i.test(raw)) return raw;
+
+      // Allow easy typing like: www.roblox.com/games/123/Game-Name
+      if (/^(www\.|roblox\.com|web\.roblox\.com)/i.test(raw)) return `https://${raw}`;
+
+      // If someone only pastes a place ID, turn it into a Roblox game page.
+      if (/^\d+$/.test(raw)) return `https://www.roblox.com/games/${raw}`;
+
+      return raw;
+    }
+
+    function getGameOpenUrl(item) {
+      return normalizeExternalUrl((item && item.gameUrl) || "https://www.roblox.com");
+    }
+
+    function forceOpenExternalUrl(url) {
+      const targetUrl = normalizeExternalUrl(url);
+      if (!targetUrl || targetUrl.startsWith("#")) return;
+
+      // Some site preview frames do NOT let target="_blank" leave the frame correctly.
+      // This opens a clean blank tab from the user's click first, then redirects that tab.
+      // That keeps Roblox from being embedded, which is what causes ERR_BLOCKED_BY_RESPONSE.
+      const tabName = `roblox_game_${Date.now()}`;
+      const openedWindow = window.open("about:blank", tabName);
+
+      if (openedWindow) {
+        try {
+          openedWindow.opener = null;
+          openedWindow.document.open();
+          openedWindow.document.write(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opening Roblox...</title>
+  <meta http-equiv="refresh" content="0;url=${escapeHtml(targetUrl)}">
+  <style>
+    body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050711;color:#fff;font-family:Arial,sans-serif;text-align:center}
+    a{color:#7ddcff;font-weight:700}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Opening Roblox...</h1>
+    <p>If it does not open, <a href="${escapeHtml(targetUrl)}">click here</a>.</p>
+  </main>
+</body>
+</html>`);
+          openedWindow.document.close();
+          openedWindow.location.replace(targetUrl);
+          return;
+        } catch (error) {
+          openedWindow.location.href = targetUrl;
+          return;
+        }
+      }
+
+      // If popups are blocked by the preview host, this is the only safe fallback.
+      // It leaves the iframe instead of trying to load Roblox inside it.
+      try {
+        if (window.top && window.top !== window.self) {
+          window.top.location.href = targetUrl;
+          return;
+        }
+      } catch (error) {
+        // Cross-origin frames can throw here; fall through to same-window navigation.
+      }
+
+      window.location.href = targetUrl;
+    }
+
+    function copyToClipboard(value) {
+      const text = normalizeExternalUrl(value);
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+
+      const input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.left = "-9999px";
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      return Promise.resolve();
+    }
+
+    // Game-link and copy handlers.
+    document.addEventListener("click", (event) => {
+      const openGameButton = event.target.closest("[data-open-game-url]");
+      if (openGameButton) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        forceOpenExternalUrl(openGameButton.dataset.openGameUrl || "");
+        return;
+      }
+
+      const copyButton = event.target.closest("[data-copy-game-url]");
+      if (copyButton) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        copyToClipboard(copyButton.dataset.copyGameUrl || "").then(() => {
+          const oldHtml = copyButton.innerHTML;
+          copyButton.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i><span>Copied Roblox Link</span>';
+          setTimeout(() => { copyButton.innerHTML = oldHtml; }, 1400);
+        });
+      }
+    }, true);
+
     function cardHtml(item) {
       const status = item.keySystem || "Key System";
       const isNoKey = status.toLowerCase().includes("no key");
@@ -2176,29 +2286,6 @@
 
     function renderCards(container, items) {
       if (container) container.innerHTML = sortNewestFirst(items).map(cardHtml).join("");
-    }
-
-    function renderHome() {
-      const newest = sortNewestFirst(scripts);
-
-      const total = $("[data-total-scripts]");
-      if (total) total.textContent = `${scripts.length} scripts`;
-
-      renderCards($("[data-featured-grid]"), newest.slice(0, 4));
-
-      const previewList = $("[data-preview-list]");
-      if (previewList) {
-        previewList.innerHTML = newest.slice(0, 4).map((item) => `
-          <a class="preview-row" href="${scriptUrl(item.id)}">
-            <img src="${escapeHtml(item.image)}" alt="" loading="lazy">
-            <span>
-              <strong>${escapeHtml(item.title)}</strong>
-              <small>${escapeHtml(item.game)} · Added ${formatAddedAgo(item)}</small>
-            </span>
-            <span class="pill">${escapeHtml(item.keySystem || item.tags[0])}</span>
-          </a>
-        `).join("");
-      }
     }
 
     let noKeyOnly = false;
@@ -2369,21 +2456,6 @@
     }
 
 
-    function copyToClipboard(value) {
-      const text = String(value || "").trim();
-      if (!text || text === "#") return;
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          alert("Game link copied. Paste it into a new browser tab to open Roblox.");
-        }).catch(() => {
-          prompt("Copy this game link:", text);
-        });
-      } else {
-        prompt("Copy this game link:", text);
-      }
-    }
-
     function renderDetail(id) {
       const item = scripts.find((scriptItem) => scriptItem.id === id);
       const detailView = $("#detail-view");
@@ -2413,10 +2485,22 @@
             <div class="meta">Added ${formatAddedAgo(item)}</div>
             <div class="tags">${tagHtml([...(item.tags || []), item.keySystem].filter(Boolean))}</div>
             <div class="actions">
-              <a class="button primary full" href="${escapeHtml(item.getScriptUrl)}" target="_blank" rel="noopener">Get Script</a>
-              <button class="button full ghost" type="button" onclick="copyToClipboard('${escapeHtml(item.gameUrl || '')}')">Open Game Page</button>
-              <p class="game-link-note">Roblox may block opening inside previews, so this button copies the link instead.</p>
-              <a class="button full ghost" href="#scripts">Back to Scripts</a>
+              <a class="button primary full" href="${escapeHtml(normalizeExternalUrl(item.getScriptUrl))}" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-code" aria-hidden="true"></i>
+                <span>Get Script</span>
+              </a>
+              <button class="button full ghost game-link-button" type="button" data-open-game-url="${escapeHtml(getGameOpenUrl(item))}">
+                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                <span>Open Game</span>
+              </button>
+              <button class="button full ghost" type="button" data-copy-game-url="${escapeHtml(getGameOpenUrl(item))}">
+                <i class="fa-solid fa-copy" aria-hidden="true"></i>
+                <span>Copy Roblox Link</span>
+              </button>
+              <a class="button full ghost" href="#scripts">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                <span>Back to Scripts</span>
+              </a>
             </div>
           </div>
         </article>
@@ -2445,7 +2529,6 @@
     }
 
     function init() {
-      renderHome();
       renderCards($("[data-scripts-grid]"), scripts);
       renderSocials();
       renderExecutorPage();
@@ -2464,15 +2547,6 @@
       });
 
       window.addEventListener("hashchange", () => setActiveView(location.hash || "#scripts"));
-      setInterval(() => {
-        renderHome();
-        filterScripts();
-        renderExecutorPage();
-        if ((location.hash || "#scripts").startsWith("#script/")) {
-          const id = decodeURIComponent((location.hash || "").split("/")[1] || "");
-          renderDetail(id);
-        }
-      }, 15000);
 
       setActiveView(location.hash || "#scripts");
     }
