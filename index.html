@@ -938,10 +938,15 @@
       overflow: hidden;
       border-radius: 18px 18px 0 0;
       aspect-ratio: 16 / 9;
-      background: #111a34;
+      background:
+        radial-gradient(circle at 24% 20%, rgba(75, 163, 255, 0.32), transparent 42%),
+        radial-gradient(circle at 78% 16%, rgba(155, 92, 255, 0.26), transparent 38%),
+        #111a34;
     }
 
-    .card img {
+    .card-media > img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       aspect-ratio: auto;
@@ -2225,6 +2230,35 @@
       }
     }, true);
 
+    function scriptPlaceholderImage(item) {
+      const game = String((item && item.game) || "Script");
+      const title = String((item && item.title) || "Script");
+      const safeGame = game.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+      const safeTitle = title.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+          <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#18294b"/>
+              <stop offset="0.5" stop-color="#111a34"/>
+              <stop offset="1" stop-color="#261646"/>
+            </linearGradient>
+            <radialGradient id="glow" cx="30%" cy="18%" r="70%">
+              <stop offset="0" stop-color="#4ba3ff" stop-opacity="0.55"/>
+              <stop offset="1" stop-color="#4ba3ff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="1280" height="720" fill="url(#bg)"/>
+          <rect width="1280" height="720" fill="url(#glow)"/>
+          <circle cx="1040" cy="130" r="230" fill="#9b5cff" opacity="0.26"/>
+          <circle cx="210" cy="610" r="260" fill="#48ead0" opacity="0.12"/>
+          <text x="72" y="315" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="900">${safeGame}</text>
+          <text x="72" y="410" fill="#dce6ff" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800">${safeTitle}</text>
+          <text x="72" y="505" fill="#53a4ff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800">Universal Script</text>
+        </svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
     function cardHtml(item) {
       const status = item.keySystem || "Key System";
       const isNoKey = status.toLowerCase().includes("no key");
@@ -2232,7 +2266,7 @@
       return `
         <a class="card" href="${scriptUrl(item.id)}">
           <div class="card-media">
-            <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)} thumbnail" loading="lazy">
+            <img src="${escapeHtml(item.image || scriptPlaceholderImage(item))}" data-fallback="${escapeHtml(scriptPlaceholderImage(item))}" alt="${escapeHtml(item.title)} thumbnail" loading="lazy" onerror="this.onerror=null;this.src=this.dataset.fallback;">
             <span class="card-badge dark time">${escapeHtml(formatAddedAgo(item))}</span>
             <span class="card-badge status ${isNoKey ? "no-key" : "key"}">${escapeHtml(status)}</span>
           </div>
