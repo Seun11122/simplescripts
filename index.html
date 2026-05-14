@@ -937,12 +937,15 @@
       position: relative;
       overflow: hidden;
       border-radius: 18px 18px 0 0;
+      aspect-ratio: 16 / 9;
+      background: #111a34;
     }
 
     .card img {
       width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: contain;
+      height: 100%;
+      aspect-ratio: auto;
+      object-fit: cover;
       object-position: center;
       background: #111a34;
     }
